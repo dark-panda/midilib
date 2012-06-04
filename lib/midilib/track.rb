@@ -5,9 +5,9 @@ require 'midilib/event'
 # with permission from Adam Murray, who originally suggested this fix.
 # See http://wiki.github.com/adamjmurray/cosy/midilib-notes for details.
 # First we need to add some API infrastructure:
-class Array
+class MIDI::Array < ::Array
   # This code borrowed from 'Moser' http://codesnippets.joyent.com/posts/show/1699
-  
+
   # A stable sorting algorithm that maintains the relative order of equal elements
   def mergesort(&cmp)
     if cmp == nil
@@ -158,7 +158,7 @@ class Track
         # We call mergesort instead of Array.sort because sort is not stable
         # (it can mix up the order of events that have the same start time).
         # See http://wiki.github.com/adamjmurray/cosy/midilib-notes for details.
-	list[starting_at .. -1] = list[starting_at .. -1].mergesort { | e1, e2 |
+	list[starting_at .. -1] = MIDI::Array.new(list[starting_at .. -1]).mergesort { | e1, e2 |
 	    e1.time_from_start <=> e2.time_from_start
 	}
 	list[starting_at .. -1].each { | e |
