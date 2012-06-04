@@ -62,6 +62,7 @@ task :publish => [:rdoc, :package] do
 end
 
 task :test do
+    $: << File.dirname(__FILE__)
     Rake::run_tests
 end
 
